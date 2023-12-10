@@ -10,18 +10,35 @@ def tic_tac_toe1P():
     # Create variables for players
     human_player = "❌"
     bot_player = "⭕"
-
     # Create the board
     board = [["" for _ in range(3)] for _ in range(3)]
+    strategies = [
+        # Format Strategies' if statements like this: if strategies[0][0] and strategies[0][1] == ""
+        # 2 Sides Strat
+        [board[0][1] == human_player and board[1][0] == human_player, board[1][1]], 
+        [board[0][1] == human_player and board[1][2] == human_player, board[1][1]],
+        [board[1][2] == human_player and board[2][1] == human_player, board[1][1]],
+        [board[1][0] == human_player and board[2][1] == human_player, board[1][1]],
+        # 2 Corners Strat
+        [board[0][0] == human_player and board[2][2] == human_player, board[1][1]],
+        [board[2][0] == human_player and board[0][2] == human_player, board[1][1]],
+        # Corners
+        [board[0][0] == human_player, board[1][1]],
+        [board[0][2] == human_player, board[1][1]],
+        [board[2][0] == human_player, board[1][1]],
+        [board[2][2] == human_player, board[1][1]],
+        ]
 
     # Create the buttons
     buttons = []
     for row in range(3):
         button_row = []
         for col in range(3):
+            button_text = f"{row},{col}"
             button = tk.Button(
                 window,
                 text="",
+                # text=button_text,
                 width=10,
                 height=5,
                 font=("Helvetica", 20, "bold"),
@@ -33,6 +50,7 @@ def tic_tac_toe1P():
 
     # Function to handle human player's move and update the game state
     def make_move(row, col):
+        print(board)
         if board[row][col] == "":
             board[row][col] = human_player
             buttons[row][col].config(text=human_player)
